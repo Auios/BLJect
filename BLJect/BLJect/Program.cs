@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace BLJect
 {
@@ -39,8 +40,12 @@ namespace BLJect
                 foreach(Process process in processes)
                 {
                     Console.WriteLine($"Injecting into '{process.Id}' ...");
+
                     // RemoteDLLInjector32.exe must be in Path or in same directory as this executable.
-                    ExecuteCommand($"RemoteDLLInjector32.exe {process.Id} Chams.dll");
+                    //ExecuteCommand($"RemoteDLLInjector32.exe {process.Id} Chams.dll");
+                    string cmd = $"RemoteDLLInjector32.exe {process.Id} {Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)}/blocksense.dll";
+                    Console.WriteLine(cmd);
+                    ExecuteCommand(cmd);
                 }
             }
             else
